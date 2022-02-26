@@ -42,17 +42,17 @@ module.exports = {
     // options below to some value.
     development: {
       host: "127.0.0.1",     // Localhost (default: none)
-      port: 7550,            // Standard Ethereum port (default: none)
+      port: 7555,            // Standard Ethereum port (default: none)
       network_id: "5777", 
     },
     ganache: {
       host: "127.0.0.1",     // Localhost (default: none)
-      port: 7550,            // Standard Ethereum port (default: none)
+      port: 7555,            // Standard Ethereum port (default: none)
       network_id: "5777",       // Any network (default: none)
      },
      tenderly: {
        host: "127.0.0.1",     // Localhost (default: none)
-       port: 7550,            // Standard Ethereum port (default: none)
+       port: 7555,            // Standard Ethereum port (default: none)
        network_id: "5777",       // Any network (default: none)
        gasPrice: 0
       },
