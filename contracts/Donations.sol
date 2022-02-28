@@ -6,7 +6,7 @@ contract Donations {
   address payable public owner; //Адрес владельца средств
   uint Amount;
   mapping(address => uint) public donators;
-  address [] public donatorsAll; // TO DO: wrong working
+  address [] public  donatorsAll; 
 
   constructor(){
     owner == msg.sender;  //Определение владельца контракта
@@ -23,16 +23,13 @@ contract Donations {
       if(msg.sender != donatorsAll[i])
       donatorsAll.push(msg.sender);
     }
-    
-
   }
   //Функция вывода средств на счет
   function transferToOwner() external{
     require(msg.sender == owner);         //Вывести средства может только владелец
     owner.transfer(address(this).balance);
   }
-  
-  // TO DO: wrong working
+ 
   //Функция показывает список всех сделавших пожертвования
   function getDonators() public view returns (address[] memory){
     return donatorsAll;
@@ -42,6 +39,4 @@ contract Donations {
   function getAmount() public view returns (uint){
     return Amount;
   }
-
-
 }
