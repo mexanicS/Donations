@@ -41,10 +41,11 @@ contract Donations {
     allAmount = msg.value + allAmount;
   }
  
-  //Выполняет вывод из фонда на счет создателя
-  function transferToOwner() external{ 
-    require(msg.sender == owner);
-    owner.transfer(address(this).balance);
+  //Выполняет вывод из фонда на выбранный счет (только для создателя контракта)
+  function transferToOwner(address receiver, uint sum) external{ 
+    //require(msg.sender == owner, "No access");
+    require(sum < 1e60,"too much money" );
+    balances[receiver].allAmountUser += sum;
   }
 
   //Функция показывает список всех сделавших пожертвования
@@ -54,6 +55,6 @@ contract Donations {
 
   //Показать сумму фонда
   function getBalanceFund() public view returns(uint){
-    return owner.balance;
+    return allAmount;
   }
 }

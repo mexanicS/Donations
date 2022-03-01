@@ -1,15 +1,16 @@
-# Basic Sample Hardhat Project
+# Smart contract for donations
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, a sample script that deploys that contract, and an example of a task implementation, which simply lists the available accounts.
-
-Try running some of the following tasks:
+Functions have been implemented:
 
 ```shell
-npx hardhat accounts
-npx hardhat compile
-npx hardhat clean
-npx hardhat test
-npx hardhat node
-node scripts/sample-script.js
-npx hardhat help
+1) Вносить пожертвования;
+2) Выводить пожертвования на определенный адресс. Данное действие может выполнить только создатель контракта. (в разработке);
+3) Хранить адреса всех пользователей сделавших пожертвования;
+4) Хранить суммы пожертвований каждого пользователя.
 ```
+
+Hardhat test содержит в себе тесты выше описанных функций
+
+TO DO: тесты на transferToOwner
+
+

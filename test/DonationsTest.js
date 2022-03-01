@@ -6,9 +6,11 @@ describe("Donations", function () {
   let donations
   let acc1
   let acc2
+  let owner
+  
   //Разворачиваем контракт
   beforeEach(async function() {
-    [acc1, acc2] = await ethers.getSigners() //от какого имени 
+    [owner, acc1, acc2] = await ethers.getSigners() //от какого имени 
     const Donations  = await ethers.getContractFactory("Donations", acc1)
     donations = await  Donations.deploy()
     await donations.deployed()
@@ -25,7 +27,7 @@ describe("Donations", function () {
     expect(balance).to.eq(0)
   })
   
-  // можно ли получать пожертвования 
+  //Можно ли получать пожертвования 
   it("should be possible to receive funds", async function() {
     const sum = 10;
     const tx = await donations.connect(acc2).makeDonation({value: sum})
@@ -34,9 +36,22 @@ describe("Donations", function () {
       .to.changeEtherBalances([acc2,donations],[-sum , sum])
     await tx.wait()
   })
-  
-  //можно ли выводить средства с фонда
+
+  //Проверка подписи контракта
+  /*it("Should set the right owner", async function () {
+    expect(await donations.owner()).to.equal(owner.address);
+  });*/
+
+
+  //Можно ли выводить средства с фонда
   it("should be possible to withdraw funds from the fund to the creator", async function() {
+    const sum = 10;
     
+    const tx = await donations.connect(owner.address).transferToOwner(acc2.address, sum)
+    
+    await expect (()=> tx)
+      .to.changeEtherBalances([owner.address,acc2],[-sum , sum])
+    await tx.wait()
   })
+
 });
