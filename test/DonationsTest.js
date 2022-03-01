@@ -21,18 +21,22 @@ describe("Donations", function () {
   });
 
   it("should have 0 ether by default", async function(){
-    const balance = await donations.getAmount()
+    const balance =  await donations.getBalanceFund()
     expect(balance).to.eq(0)
   })
-
-  /*it("should be possible to send funds", async function() {
-    const tx = await donations.makeDonation({value: 10})
+  
+  // можно ли получать пожертвования 
+  it("should be possible to receive funds", async function() {
+    const sum = 10;
+    const tx = await donations.connect(acc2).makeDonation({value: sum})
 
     await expect (()=> tx)
-      .to.changeEtherBalances([-10],[10])
+      .to.changeEtherBalances([acc2,donations],[-sum , sum])
     await tx.wait()
+  })
+  
+  //можно ли выводить средства с фонда
+  it("should be possible to withdraw funds from the fund to the creator", async function() {
     
-    //const balance = await donations.getAmount()
-    //console.log(donations)
-  })*/
+  })
 });

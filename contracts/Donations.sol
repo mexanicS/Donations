@@ -2,14 +2,14 @@
 pragma solidity >=0.4.22 <0.9.0;
 
 contract Donations {
+
+  address payable public owner;
   constructor() {
     owner == msg.sender;
   }
 
-  address payable public owner;
-
   struct Donators{
-    uint amount;
+    uint sum;
     address from;
   }
 
@@ -50,5 +50,10 @@ contract Donations {
   //Функция показывает список всех сделавших пожертвования
   function getDonators() public view returns (address[] memory){
     return donatorsAll;
+  }
+
+  //Показать сумму фонда
+  function getBalanceFund() public view returns(uint){
+    return owner.balance;
   }
 }
