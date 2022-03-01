@@ -2,41 +2,53 @@
 pragma solidity >=0.4.22 <0.9.0;
 
 contract Donations {
+  constructor() {
+    owner == msg.sender;
+  }
 
-  address payable public owner; //Адрес владельца средств
-  uint Amount;
-  mapping(address => uint) public donators;
+  address payable public owner;
+
+  struct Donators{
+    uint amount;
+    address from;
+  }
+
+  struct Balance {
+    uint allAmountUser;
+    mapping(uint => Donators) donations;
+  }
+
+  uint allAmount;
   address [] public  donatorsAll; 
 
-  constructor(){
-    owner == msg.sender;  //Определение владельца контракта
-  }
+  mapping(address => Balance) public balances;
 
-  //Функция перевода средств в фонд
+  //Совершить пожертвование
   function makeDonation() public payable{
-    require(msg.value >= .001 ether);
-    Amount = Amount + msg.value;
-    donators[msg.sender] += msg.value;
+    
+    uint donationsNum = balances[msg.sender].allAmountUser;
+    balances[msg.sender].allAmountUser += msg.value;
 
-    //Добавлять нового юзера только если его раньше не было в donatorsAll
-    for (uint256 i = 0; i <= donatorsAll.length; i++) {
-      if(msg.sender != donatorsAll[i])
-      donatorsAll.push(msg.sender);
-    }
-  }
-  //Функция вывода средств на счет
-  function transferToOwner() external{
-    require(msg.sender == owner);         //Вывести средства может только владелец
-    owner.transfer(address(this).balance);
+    donatorsAll.push(msg.sender);
+
+    Donators memory newDonators = Donators(
+      msg.value,
+      msg.sender
+    );
+
+    balances[msg.sender].donations[donationsNum] = newDonators;
+
+    allAmount = msg.value + allAmount;
   }
  
+  //Выполняет вывод из фонда на счет создателя
+  function transferToOwner() external{ 
+    require(msg.sender == owner);
+    owner.transfer(address(this).balance);
+  }
+
   //Функция показывает список всех сделавших пожертвования
   function getDonators() public view returns (address[] memory){
     return donatorsAll;
-  }
-
-  //Вывод общей суммы всех юзеров
-  function getAmount() public view returns (uint){
-    return Amount;
   }
 }

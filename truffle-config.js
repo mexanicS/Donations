@@ -40,7 +40,7 @@ module.exports = {
     // You should run a client (like ganache-cli, geth or parity) in a separate terminal
     // tab if you use this network and you must also set the `host`, `port` and `network_id`
     // options below to some value.
-    development: {
+    /*development: {
       host: "127.0.0.1",     // Localhost (default: none)
       port: 7555,            // Standard Ethereum port (default: none)
       network_id: "5777", 
@@ -55,7 +55,7 @@ module.exports = {
        port: 7555,            // Standard Ethereum port (default: none)
        network_id: "5777",       // Any network (default: none)
        gasPrice: 0
-      },
+      },*/
     // Another network with more advanced options...
     // advanced: {
     // port: 8777,             // Custom port
