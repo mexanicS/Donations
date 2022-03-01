@@ -11,6 +11,6 @@ Functions have been implemented:
 
 Hardhat test содержит в себе тесты выше описанных функций
 
-TO DO: тесты на transferToOwner
+TO DO: тесты на transferToOwner, разграничить amountAllUser И выводимые средства
 
 
