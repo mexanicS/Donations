@@ -39,13 +39,15 @@ contract Donations {
     );
 
     balances[msg.sender].donations[donationsNum] = newDonators;
-
-    allAmount = msg.value + allAmount;
+    
+    allAmount += msg.value;
   }
  
   //Выполняет вывод из фонда на выбранный счет (только для создателя контракта)
   function transferToOwner(address receiver, uint sum) external{ 
     require(msg.sender == owner, "No access");
+
+    allAmount -= sum;
     balances[receiver].money += sum;
   }
 

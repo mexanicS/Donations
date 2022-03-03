@@ -25,13 +25,13 @@ describe("Donations", function () {
     expect(donations.address).to.be.properAddress
   });
 
-  // Количество средст на фонде изначально равно 0
+  // Количество средств на фонде изначально равно 0
   it("Should have 0 ether by default", async function(){
     const balance =  await donations.getBalanceFund()
     expect(balance).to.eq(0)
   })
   
-  //Можно ли получать пожертвования 
+  //Можно ли получать пожертвования и зачисляются ли они в фонд
   it("Should be possible to receive funds", async function() {
     const sum = 10;
     const tx = await donations.connect(acc2).makeDonation({value: sum})
@@ -39,13 +39,26 @@ describe("Donations", function () {
     await expect (()=> tx)
       .to.changeEtherBalances([acc2,donations],[-sum , sum])
     await tx.wait()
+
+    const fundBalance = await donations.getBalanceFund()
+    expect(fundBalance).to.equal(sum)
   })
 
+  // Перевести с фонда на любой адресс
   it("Should transfer tokens from the fund to accounts", async function () {
-    // Перевести с фонда на любой адресс
-    await donations.transferToOwner(acc1.address, 10);
+    
+    const sumIn = 10;
+    const sumOut = 10;
 
-    const acc1Balance = await donations.getBalance(acc1.address);
-    expect(acc1Balance).to.equal(10);
+    await donations.connect(acc2).makeDonation({value: sumIn})
+    await donations.connect(owner).transferToOwner(acc1.address, sumOut)
+
+    const acc1Balance = await donations.getBalance(acc1.address)
+    const fundBalance = await donations.getBalanceFund()
+
+    expect(fundBalance).to.equal(sumIn-sumOut)
+    expect(acc1Balance).to.equal(sumOut)
+    
+    
   });
 });
