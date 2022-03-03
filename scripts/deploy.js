@@ -7,20 +7,17 @@ const hre = require("hardhat");
 
 
 async function main() {
-  const [deployer] = await ethers.getSigners(); //get the account to deploy the contract
+  const [deployer] = await ethers.getSigners(); 
 
   console.log("Deploying contracts with the account:", deployer.address); 
 
-  const Donations = await hre.ethers.getContractFactory("Donations"); // Getting the Contract
+  const Donations = await hre.ethers.getContractFactory("Donations");
   const donations = await Donations.deploy(); //deploying the contract
 
   await donations.deployed(); // waiting for the contract to be deployed
 
   console.log("Donations deployed to:", donations.address); // Returning the contract address on the rinkeby
 }
-
-// We recommend this pattern to be to use async/await everywhere
-// and properly handle errors.
 main()
   .then(() => process.exit(0))
   .catch((error) => {
