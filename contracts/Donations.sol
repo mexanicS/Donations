@@ -3,9 +3,10 @@ pragma solidity >=0.4.22 <0.9.0;
 
 contract Donations {
 
-  address payable public owner;
+  address public owner;
+
   constructor() {
-    owner == msg.sender;
+    owner = msg.sender;
   }
 
   struct Donators{
@@ -14,10 +15,11 @@ contract Donations {
   }
 
   struct Balance {
-    uint allAmountUser;
+    uint money;
+    uint allAmountDonation;
     mapping(uint => Donators) donations;
   }
-
+  
   uint allAmount;
   address [] public  donatorsAll; 
 
@@ -26,11 +28,11 @@ contract Donations {
   //Совершить пожертвование
   function makeDonation() public payable{
     
-    uint donationsNum = balances[msg.sender].allAmountUser;
-    balances[msg.sender].allAmountUser += msg.value;
-
+    uint donationsNum = balances[msg.sender].allAmountDonation;
+    balances[msg.sender].allAmountDonation += msg.value;
+    
     donatorsAll.push(msg.sender);
-
+    
     Donators memory newDonators = Donators(
       msg.value,
       msg.sender
@@ -43,9 +45,8 @@ contract Donations {
  
   //Выполняет вывод из фонда на выбранный счет (только для создателя контракта)
   function transferToOwner(address receiver, uint sum) external{ 
-    //require(msg.sender == owner, "No access");
-    require(sum < 1e60,"too much money" );
-    balances[receiver].allAmountUser += sum;
+    require(msg.sender == owner, "No access");
+    balances[receiver].money += sum;
   }
 
   //Функция показывает список всех сделавших пожертвования
@@ -56,5 +57,10 @@ contract Donations {
   //Показать сумму фонда
   function getBalanceFund() public view returns(uint){
     return allAmount;
+  }
+
+  //Показать сколько средств на счету
+  function getBalance(address _addr) public view returns(uint){
+    return balances[_addr].money;
   }
 }
