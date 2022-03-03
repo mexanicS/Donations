@@ -1,6 +1,5 @@
 const { expect, should } = require("chai");
 const { ethers } = require("hardhat");
-//const {isCallTrace} = require("hardhat/internal/hardhat-network/stack/traces/message")
 
 describe("Donations", function () {
   let donations
