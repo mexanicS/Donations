@@ -11,7 +11,7 @@ async function main() {
 
   console.log("Deploying contracts with the account:", deployer.address); 
 
-  const Donations = await hre.ethers.getContractFactory("Donations");
+  const Donations = await hre.ethers.getContractFactory('Donations');
   const donations = await Donations.deploy(); //deploying the contract
 
   await donations.deployed(); // waiting for the contract to be deployed

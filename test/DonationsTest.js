@@ -46,19 +46,15 @@ describe("Donations", function () {
 
   // Перевести с фонда на любой адресс
   it("Should transfer tokens from the fund to accounts", async function () {
+    const sum = 10;
     
-    const sumIn = 10;
-    const sumOut = 10;
+    await donations.connect(acc2).makeDonation({value: sum})
 
-    await donations.connect(acc2).makeDonation({value: sumIn})
-    await donations.connect(owner).transferToOwner(acc1.address, sumOut)
+    const tx = await donations.connect(owner).transferToOwner(acc1.address)
 
-    const acc1Balance = await donations.getBalance(acc1.address)
-    const fundBalance = await donations.getBalanceFund()
-
-    expect(fundBalance).to.equal(sumIn-sumOut)
-    expect(acc1Balance).to.equal(sumOut)
-    
+    await expect (()=> tx)
+      .to.changeEtherBalances([donations,acc1],[-sum , sum])
+    await tx.wait()
     
   });
 });

@@ -2,67 +2,72 @@
 pragma solidity >=0.4.22 <0.9.0;
 
 contract Donations {
-
-  address public owner;
-
   constructor() {
     owner = msg.sender;
   }
 
-  struct Donators{
+  struct Donation{
     uint sum;
+    uint sumAll;
     address from;
+    uint timestamp;
   }
+  uint sumFund;
 
-  struct Balance {
-    uint money;
-    uint allAmountDonation;
-    mapping(uint => Donators) donations;
-  }
+  address public owner;
+  address [] public donatorsAll;
   
-  uint allAmount;
-  address [] public  donatorsAll; 
+  Donation[] donation; 
+  mapping (address => Donation) donations;
 
-  mapping(address => Balance) public balances;
+  //Проверяем владельца смарт контракта
+  modifier requireOwner() {
+    require (owner == msg.sender, "No access");
+    _;
+  }
 
   //Совершить пожертвование
   function makeDonation() public payable{
-    
-    uint donationsNum = balances[msg.sender].allAmountDonation;
-    balances[msg.sender].allAmountDonation += msg.value;
-    
     donatorsAll.push(msg.sender);
-    
-    Donators memory newDonators = Donators(
-      msg.value,
-      msg.sender
-    );
 
-    balances[msg.sender].donations[donationsNum] = newDonators;
+    donations[msg.sender].sumAll += msg.value;
+    Donation memory newDonation = Donation(msg.value,donations[msg.sender].sumAll,msg.sender,block.timestamp);
+    donation.push(newDonation);
     
-    allAmount += msg.value;
+    sumFund += msg.value;
   }
  
+  //TO DO
   //Выполняет вывод из фонда на выбранный счет (только для создателя контракта)
-  function transferToOwner(address receiver, uint sum) external{ 
-    require(msg.sender == owner, "No access");
-
-    allAmount -= sum;
-    balances[receiver].money += sum;
+  function transferToOwner(address payable _to) public requireOwner { 
+    _to.transfer(address(this).balance);
+    sumFund = 0;
   }
 
-  //Функция показывает список всех сделавших пожертвования
-  function getDonators() public view returns (address[] memory){
-    return donatorsAll;
+  //TO DO
+  //Функция показывает информацию о транзакции
+  function getDonations(uint _index) public view returns (Donation memory){
+    require(_index < donation.length, "Out of range");
+    return donation[_index];
+  }
+
+  //Показывает список совершивших пожертвования
+  function getDonatorsAll() public view returns (address[] memory){
+   return donatorsAll;
   }
 
   //Показать сумму фонда
   function getBalanceFund() public view returns(uint){
-    return allAmount;
+    return sumFund;
+  }
+
+  //Показать сколько пожертвовал адресс
+  function getDonatingAmount(address _addr)public view returns(uint){
+    return donations[_addr].sumAll;
   }
 
   //Показать сколько средств на счету
   function getBalance(address _addr) public view returns(uint){
-    return balances[_addr].money;
+    return _addr.balance;
   }
 }

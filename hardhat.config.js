@@ -17,7 +17,7 @@ module.exports = {
     
     rinkeby:{
       url: "https://rinkeby.infura.io/v3/1ce839df793a46ab84f676d99bd77309",
-      accounts: ["6693d9ad2a7a6ad3b638c039fda3c189e006b324850002cd74a287b0e9a48e2f"]
+      accounts: ["0xdf57089febbacf7ba0bc227dafbffa9fc08a93fdc68e1e42411a14efcf23656e"]
     },
   }
 };
