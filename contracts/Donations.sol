@@ -37,19 +37,17 @@ contract Donations {
     sumFund += msg.value;
   }
  
-  //TO DO
   //Выполняет вывод из фонда на выбранный счет (только для создателя контракта)
   function transferToOwner(address payable _to) public requireOwner { 
-    _to.transfer(address(this).balance);
+    _to.transfer(address(owner).balance);
     sumFund = 0;
   }
 
-  //TO DO
   //Функция показывает информацию о транзакции
-  function getDonations(uint _index) public view returns (Donation memory){
+  /*function getDonations(uint _index) public view returns (Donation memory){
     require(_index < donation.length, "Out of range");
     return donation[_index];
-  }
+  }*/
 
   //Показывает список совершивших пожертвования
   function getDonatorsAll() public view returns (address[] memory){
