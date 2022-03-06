@@ -7,8 +7,17 @@
 3) Хранить адреса всех пользователей сделавших пожертвования;
 4) Хранить суммы пожертвований каждого пользователя.
 
-Hardhat test содержит в себе unit tests выше описанных функций
+Hardhat test содержит в себе unit tests выше описанных функций;
 
-Написан скрипт deploy в тестовую сеть rinkeby
+Результат работы hardhat test:
+
+![image](https://user-images.githubusercontent.com/62372987/156938758-146856c8-6c22-441e-a3c0-40a2ac6d3cf2.png)
+
+Написан скрипт deploy в тестовую сеть rinkeby;
+
+Результат работы deploy.js:
+
+![image](https://user-images.githubusercontent.com/62372987/156938701-558bf482-7a84-4c92-84ed-1d2f1bf67140.png)
+
 
 
