@@ -13,7 +13,7 @@ Hardhat test содержит в себе unit tests выше описанных
 
 Результат работы hardhat test:
 
-![image](https://user-images.githubusercontent.com/62372987/156938758-146856c8-6c22-441e-a3c0-40a2ac6d3cf2.png)
+![image](https://user-images.githubusercontent.com/62372987/157062595-e67e2bc4-5c8b-4cb1-9d30-ff8e9f4e05b4.png)
 
 Написан скрипт deploy в тестовую сеть rinkeby;
 
