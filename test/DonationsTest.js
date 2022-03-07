@@ -27,7 +27,7 @@ describe("Donations", function () {
 
   // Количество средств на фонде изначально равно 0
   it("Should have 0 ether by default", async function(){
-    const balance =  await donations.getBalanceFund()
+    const balance =  await donations.getBalanceAnyAddress(donations.address)
     expect(balance).to.eq(0)
   })
   
@@ -40,7 +40,7 @@ describe("Donations", function () {
       .to.changeEtherBalances([acc2,donations],[-sum , sum])
     await tx.wait()
 
-    const fundBalance = await donations.getBalanceFund()
+    const fundBalance = await donations.getBalanceAnyAddress(donations.address)
     expect(fundBalance).to.equal(sum)
   })
 
@@ -51,7 +51,7 @@ describe("Donations", function () {
     
     await donations.connect(acc2).makeDonation({value: sum})
 
-    const tx = await donations.connect(donations).transferToOwner(acc1.address)
+    const tx = await donations.transferToOwner(acc1.address)
 
     await expect (()=> tx)
       .to.changeEtherBalances([donations,acc1],[-sum , sum])
