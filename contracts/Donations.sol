@@ -12,8 +12,8 @@ contract Donations {
     address from;
     uint timestamp;
   }
-  uint sumFund;
-
+  //uint sumFund;
+  
   address public owner;
   address [] public donatorsAll;
   
@@ -33,30 +33,24 @@ contract Donations {
     donations[msg.sender].sumAll += msg.value;
     Donation memory newDonation = Donation(msg.value,donations[msg.sender].sumAll,msg.sender,block.timestamp);
     donation.push(newDonation);
-    
-    sumFund += msg.value;
   }
  
+  //TO DO
   //Выполняет вывод из фонда на выбранный счет (только для создателя контракта)
   function transferToOwner(address payable _to) public requireOwner { 
-    _to.transfer(address(owner).balance);
-    sumFund = 0;
+    _to.transfer(getBalanceAnyAddress(address(this)));
   }
 
+  //TO DO (ничего не показывает)
   //Функция показывает информацию о транзакции
-  /*function getDonations(uint _index) public view returns (Donation memory){
+  function getDonations(uint _index) public view returns (Donation memory){
     require(_index < donation.length, "Out of range");
     return donation[_index];
-  }*/
+  }
 
   //Показывает список совершивших пожертвования
   function getDonatorsAll() public view returns (address[] memory){
    return donatorsAll;
-  }
-
-  //Показать сумму фонда
-  function getBalanceFund() public view returns(uint){
-    return sumFund;
   }
 
   //Показать сколько пожертвовал адресс
@@ -64,8 +58,9 @@ contract Donations {
     return donations[_addr].sumAll;
   }
 
-  //Показать сколько средств на счету
-  function getBalance(address _addr) public view returns(uint){
-    return _addr.balance;
+  //Посмотреть сколько средств на любом адресе
+  function getBalanceAnyAddress(address _addr) public view returns(uint accountBalance){
+    return accountBalance = _addr.balance;
   }
-}
+
+} 

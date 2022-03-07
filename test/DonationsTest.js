@@ -11,7 +11,7 @@ describe("Donations", function () {
   //Разворачиваем контракт
   beforeEach(async function() {
     [owner, acc1, acc2] = await ethers.getSigners() //от какого имени 
-    Donations  = await ethers.getContractFactory("Donations")
+    Donations  = await ethers.getContractFactory('Donations')
     donations = await  Donations.deploy()
   })
 
@@ -48,9 +48,10 @@ describe("Donations", function () {
   it("Should transfer tokens from the fund to accounts", async function () {
     const sum = 10;
     
+    
     await donations.connect(acc2).makeDonation({value: sum})
 
-    const tx = await donations.connect(owner).transferToOwner(acc1.address)
+    const tx = await donations.connect(donations).transferToOwner(acc1.address)
 
     await expect (()=> tx)
       .to.changeEtherBalances([donations,acc1],[-sum , sum])
